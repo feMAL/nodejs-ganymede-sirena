@@ -35,5 +35,7 @@ app.listen( PORT, ( ) => {
             useNewUrlParser: true
         }).then( (connected) => {
             console.log('# DataBase Server MongoDB running..')
+        }).catch( err => {
+            console.log(err)
         })
 })

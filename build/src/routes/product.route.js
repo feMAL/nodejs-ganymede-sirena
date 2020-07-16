@@ -14,6 +14,6 @@ const api = express_1.Router();
  */
 api.post('/product/search', product_controller_1.default.searchRequest);
 api.get('/product/search-orders', product_controller_1.default.showAllOrders);
-api.get('/product/search-orders/:idorder', product_controller_1.default.showOrderById);
+api.get('/product/search-order/:idorder', product_controller_1.default.showOrderById);
 api.get('/product/category/:idcategory', product_controller_1.default.showProductsByCategory);
 exports.default = api;
