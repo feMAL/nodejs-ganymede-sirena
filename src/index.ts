@@ -23,7 +23,7 @@ app.use((req,res,next)=>{
 
     next();
 })
-app.use('/api', [ ProductRoute ] )
+app.use(URI_BASE, [ ProductRoute ] )
 
 //Server API
 app.listen( PORT, ( ) => {

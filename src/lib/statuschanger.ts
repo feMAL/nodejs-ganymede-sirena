@@ -7,22 +7,19 @@ export class StatusChanger{
         private order     : SearchOrder
     ){}
 
-    statusChanger(){
-        let function_status = false
+    statusChanger(): SearchOrder {
+        var order :SearchOrder = this.order
         const status_options = [ 'received', 'processing', 'fulfilled', 'failed']
         const status = this.newStatus.trim().toLowerCase()
         if(status_options.indexOf(status)){
-            this.order.status = status
-            Search_Order.findByIdAndUpdate(this.order._id, this.order, ( err, updated ) => {
+            order.status = status
+            Search_Order.findByIdAndUpdate(this.order._id, order, { new: true } ,( err, updated ) => {
                 if(err){
-                    return function_status
+                    console.log(err.message)
                 }
-                if(updated){
-                    return function_status = true
-                }
+                order = updated || order
             })
-        }else{
-            return function_status
         }
+        return order
     }
 }
