@@ -32,12 +32,11 @@ const searchRequest = async (req:Request, res:Response) => {
             return res.status(404).send( { ok: false, message: 'No se ha encontrado la orden de busqueda generada'} )
         }else{
             let changer : SearchOrder = new StatusChanger('pending',orderSaved).statusChanger()
-            console.log(changer)
             let connection = new Communicator()
                 .sendCommunication(changer)
-                .then( res => {
+                /*.then( res => {
                     console.log(res)
-                })
+                })*/
                 .catch( err => console.log(err) )
             return res.status(200).send( { orderSaved } )
         }
@@ -45,7 +44,7 @@ const searchRequest = async (req:Request, res:Response) => {
 }
 
 const showAllOrders = async (req:Request, res:Response) => {
-    Search_Order.find().exec( ( err, allOrder ) => {
+    Search_Order.find().populate('result').exec( ( err, allOrder ) => {
         if(err){
             return res.status(500).send( { ok: false, message: err.message } )
         }

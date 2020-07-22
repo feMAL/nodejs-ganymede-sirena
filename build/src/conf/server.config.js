@@ -10,7 +10,10 @@ exports.ServerConfig = {
         protocol: 'http',
         url: 'localhost',
         port: 5050,
-        uriBase: '/api'
+        uriBase: '/api',
+        uris: {
+            input: '/engine-search/input'
+        }
     },
     dbganymede: {
         protocol: 'mongodb',

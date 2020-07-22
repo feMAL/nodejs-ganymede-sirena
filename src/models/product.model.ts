@@ -7,14 +7,13 @@ export interface Product extends mongoose.Document {
     originalPrice : Float32Array,
     category      : Array<String>,
     description   : String,
-    image         : String,
+    images        : String,
     searchRelated : String
 }
 
-const productSchema = new Schema({
+const Product_Schema = new Schema({
     sku          : { 
         type: String,
-        unique: true, 
         required:true
     },
     name         : { 
@@ -22,16 +21,14 @@ const productSchema = new Schema({
         required: true
     },
     price        : { 
-        type: Float32Array,
+        type: Number,
         required: true 
     },
-    originaPrice : { 
-        type: Float32Array, 
+    originalPrice : { 
+        type: Number, 
     },
     category     : [ { 
         type: String,
-        /*type: Schema.Types.ObjectId, 
-        ref:'category',*/
         required: true
     } ],
     description  : { 
@@ -41,8 +38,9 @@ const productSchema = new Schema({
         type: String 
     },
     searchRelated: { 
-        type: Number
+        type: Schema.Types.ObjectId, ref:'search_order',
+        require: true
     }
 })
 
-export default model('product', productSchema )
+export default model<Product>('product', Product_Schema )

@@ -9,6 +9,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const server_config_1 = require("./conf/server.config");
 //Routes
 const product_route_1 = __importDefault(require("./routes/product.route"));
+const input_route_1 = __importDefault(require("./routes/input.route"));
 //Initializations
 const app = express_1.default();
 const PORT = server_config_1.ServerConfig.ganymede.port;
@@ -24,7 +25,7 @@ app.use((req, res, next) => {
     res.header('Allow', 'GET,POST,PUT,DELETE,OPTIONS');
     next();
 });
-app.use('/api', [product_route_1.default]);
+app.use(URI_BASE, [product_route_1.default, input_route_1.default]);
 //Server API
 app.listen(PORT, () => {
     console.log(`# Server Listen on Port ${PORT}`);

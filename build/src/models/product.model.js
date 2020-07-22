@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const productSchema = new mongoose_1.Schema({
+const Product_Schema = new mongoose_1.Schema({
     sku: {
         type: String,
-        unique: true,
         required: true
     },
     name: {
@@ -12,16 +11,14 @@ const productSchema = new mongoose_1.Schema({
         required: true
     },
     price: {
-        type: Float32Array,
+        type: Number,
         required: true
     },
-    originaPrice: {
-        type: Float32Array,
+    originalPrice: {
+        type: Number,
     },
     category: [{
             type: String,
-            /*type: Schema.Types.ObjectId,
-            ref:'category',*/
             required: true
         }],
     description: {
@@ -31,7 +28,8 @@ const productSchema = new mongoose_1.Schema({
         type: String
     },
     searchRelated: {
-        type: Number
+        type: mongoose_1.Schema.Types.ObjectId, ref: 'search_order',
+        require: true
     }
 });
-exports.default = mongoose_1.model('product', productSchema);
+exports.default = mongoose_1.model('product', Product_Schema);

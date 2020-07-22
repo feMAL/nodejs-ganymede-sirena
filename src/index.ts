@@ -5,6 +5,7 @@ import { ServerConfig } from './conf/server.config'
 
 //Routes
 import ProductRoute  from './routes/product.route'
+import InputRoute  from './routes/input.route'
 
 //Initializations
 const app      = express()
@@ -23,7 +24,7 @@ app.use((req,res,next)=>{
 
     next();
 })
-app.use(URI_BASE, [ ProductRoute ] )
+app.use(URI_BASE, [ ProductRoute, InputRoute ] )
 
 //Server API
 app.listen( PORT, ( ) => {

@@ -11,7 +11,6 @@ export class Communicator {
 
     sendCommunication = async ( data: SearchOrder ) => {
         let response = await axios.post(this.themistoURL,data);
-
-        console.log(response.data)
+        return response.data
     }
 }

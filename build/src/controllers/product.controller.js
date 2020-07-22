@@ -13,6 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const order_model_1 = __importDefault(require("../models/order.model"));
+const statuschanger_1 = require("../lib/statuschanger");
+const communicator_1 = require("../lib/communicator");
+/**
+ *  Solicitud de Consulta
+ */
 const searchRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body) {
         return res.status(400).send({ ok: false, message: 'No ha enviado los parametros requeridos' });
@@ -24,18 +29,27 @@ const searchRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     let newSearchOrder = new order_model_1.default();
     newSearchOrder.id = new Date().getTime();
     newSearchOrder.data = params;
-    newSearchOrder.save((err, bookSaved) => {
+    newSearchOrder.save((err, orderSaved) => {
         if (err) {
             return res.status(500).send({ ok: false, message: err.message });
         }
-        if (!bookSaved) {
+        if (!orderSaved) {
             return res.status(404).send({ ok: false, message: 'No se ha encontrado la orden de busqueda generada' });
         }
-        res.status(200).send({ bookSaved });
+        else {
+            let changer = new statuschanger_1.StatusChanger('pending', orderSaved).statusChanger();
+            let connection = new communicator_1.Communicator()
+                .sendCommunication(changer)
+                /*.then( res => {
+                    console.log(res)
+                })*/
+                .catch(err => console.log(err));
+            return res.status(200).send({ orderSaved });
+        }
     });
 });
 const showAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    order_model_1.default.find().exec((err, allOrder) => {
+    order_model_1.default.find().populate('result').exec((err, allOrder) => {
         if (err) {
             return res.status(500).send({ ok: false, message: err.message });
         }
