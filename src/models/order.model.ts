@@ -1,6 +1,6 @@
 import mongoose, { model } from 'mongoose'
 import { Product } from './product.model'
-import { SearchRequest } from '../controllers/searchRequest.model'
+import { SearchRequest } from './searchRequest.model'
 
 const status_options = [ 'received', 'processing', 'fulfilled', 'failed']
 

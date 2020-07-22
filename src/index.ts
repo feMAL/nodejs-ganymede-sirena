@@ -1,3 +1,9 @@
+/**
+ *   @name index  Entrada al aplicativo
+ *   @description  Levanta API (GanyMede). Se configura los middlewares, y las rutas del servicio.
+ *   @type API  -> Ganymede
+ */ 
+
 //Imports 
 import express from 'express'
 import mongoose from 'mongoose'

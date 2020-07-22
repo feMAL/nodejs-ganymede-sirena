@@ -1,3 +1,8 @@
+/**
+ *  @name ServerConfig
+ *  @description Objeto de configuración para servidores.
+ *  @type Constante de tipo Object
+ */
 export const ServerConfig = {
     ganymede: {
         port    : 5000 || process.env.PORT,
