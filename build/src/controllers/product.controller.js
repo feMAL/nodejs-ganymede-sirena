@@ -16,67 +16,100 @@ const order_model_1 = __importDefault(require("../models/order.model"));
 const statuschanger_1 = require("../lib/statuschanger");
 const communicator_1 = require("../lib/communicator");
 /**
- *  Solicitud de Consulta
+ *  @name SearchRequest
+ *  @description Función de END-POINT para capturar la Solicitud de Busqueda.
+ *
+ *  @param req  Objeto Tipo Request
+ *  @param res  Objeto Tipo Response
+ *
+ *  @returns Retorna un objeto SearchOrder en estado pending. Y envia el objeto de busqueda hacia Themisto.
  */
 const searchRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body) {
-        return res.status(400).send({ ok: false, message: 'No ha enviado los parametros requeridos' });
+        return res.status(400).send({ _ok: false, message: 'No ha enviado los parametros requeridos' });
     }
     let params = req.body;
     if (!params.query || !params.providers || !params.callbackUrl) {
-        return res.status(400).send({ ok: false, message: 'No ha enviado los parametros requeridos' });
+        return res.status(400).send({ _ok: false, message: 'No ha enviado los parametros requeridos' });
     }
     let newSearchOrder = new order_model_1.default();
     newSearchOrder.id = new Date().getTime();
     newSearchOrder.data = params;
     newSearchOrder.save((err, orderSaved) => {
         if (err) {
-            return res.status(500).send({ ok: false, message: err.message });
+            return res.status(500).send({ _ok: false, message: err.message });
         }
         if (!orderSaved) {
-            return res.status(404).send({ ok: false, message: 'No se ha encontrado la orden de busqueda generada' });
+            return res.status(404).send({ _ok: false, message: 'No se ha encontrado la orden de busqueda generada' });
         }
         else {
             let changer = new statuschanger_1.StatusChanger('pending', orderSaved).statusChanger();
             let connection = new communicator_1.Communicator()
-                .sendCommunication(changer)
-                /*.then( res => {
-                    console.log(res)
-                })*/
-                .catch(err => console.log(err));
-            return res.status(200).send({ orderSaved });
+                .sendCommunication(changer).then(response => {
+                return res.status(200).send({ _ok: true, orderSaved, message: response });
+            })
+                .catch(err => {
+                return res.status(500).send({ _ok: false, message: 'Se ha producido un error en el proceso' });
+            });
         }
     });
 });
+/**
+ *  @name showAllOrders
+ *  @description Función de END-POINT para obtener todas las ordenes de busqueda.
+ *
+ *  @param req  Objeto Tipo Request
+ *  @param res  Objeto Tipo Response
+ *
+ *  @returns Retorna todas las Ordenes
+ */
 const showAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     order_model_1.default.find().populate('result').exec((err, allOrder) => {
         if (err) {
-            return res.status(500).send({ ok: false, message: err.message });
+            return res.status(500).send({ _ok: false, message: err.message });
         }
-        return res.status(200).send({ ok: true, search_order: allOrder });
+        return res.status(200).send({ _ok: true, search_order: allOrder });
     });
 });
+/**
+ *  @name showOrderById
+ *  @description Función de END-POINT para obtener una orden por ID.
+ *
+ *  @param req  Objeto Tipo Request
+ *  @param res  Objeto Tipo Response
+ *
+ *  @returns Retorna la orden solicitada por parametro
+ */
 const showOrderById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let idOrder = req.params.idorder;
     if (idOrder) {
         if (idOrder.length == 24) {
             order_model_1.default.findById(idOrder, (err, foundIt) => {
                 if (err) {
-                    return res.status(500).send({ ok: false, message: err.message });
+                    return res.status(500).send({ _ok: false, message: err.message });
                 }
-                return res.status(200).send({ ok: true, search_order: foundIt });
+                return res.status(200).send({ _ok: true, search_order: foundIt });
             });
         }
         else {
-            return res.status(400).send({ ok: false, message: 'No ha enviado los parametros requeridos correctamente' });
+            return res.status(400).send({ _ok: false, message: 'No ha enviado los parametros requeridos correctamente' });
         }
     }
     else {
-        return res.status(400).send({ ok: false, message: 'No ha enviado los parametros requeridos correctamente' });
+        return res.status(400).send({ _ok: false, message: 'No ha enviado los parametros requeridos correctamente' });
     }
 });
+/**
+ *  @name showProductsByCategory
+ *  @description Función de END-POINT para obtener todas las ordenes de busqueda.
+ *
+ *  @param req  Objeto Tipo Request
+ *  @param res  Objeto Tipo Response
+ *
+ *  @returns Retorna todas las Ordenes
+ */
 const showProductsByCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).send({ ok: true, message: 'product/search endpoint UP!' });
+    res.status(200).send({ _ok: true, message: 'product/search endpoint UP!' });
 });
 exports.default = {
     searchRequest,

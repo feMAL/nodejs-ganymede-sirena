@@ -19,7 +19,6 @@ const getResult = async (req:Request, res:Response ) => {
             res.status(200).send({ status: 'ok', message: 'Resultados Recibido' });
             await saveProductResult( result );
             saveSearchOrder( result );
-            
         }else{
             res.status(400).send({status:false, object: 'No envió el objeto correctamente'});
         }
@@ -78,8 +77,15 @@ const saveSearchOrder = ( orderToUpdate: SearchOrder ) => {
  */
 const saveProductResult = async ( orderToUpdate: SearchOrder ) => {
     
-    await orderToUpdate.result.forEach( async ( productRecived: Product ) => {
+    await orderToUpdate.result.forEach( async ( productRecived ) => {
+ 
         let product = new Product_Schema();
+
+        if(typeof productRecived.price === 'string'){
+            var precioTest: string = productRecived.price;
+            precioTest = precioTest.trim();
+            productRecived.price = Number(precioTest)
+        }
 
         product.searchRelated = orderToUpdate._id;
         product.name          = productRecived.name;
@@ -89,13 +95,17 @@ const saveProductResult = async ( orderToUpdate: SearchOrder ) => {
         product.sku           = productRecived.sku || 0;
         product.price         = productRecived.price;
         product.originalPrice = productRecived.originalPrice || null;
+        
+        
 
         await product.save( ( err, saveProduct ) => {
             if(err){
                 return console.log( err.message + ':- error -' );
             }
-            if(saveProduct){
+            if(saveProduct)
+            {
                 saveProduct;
+                console.log(saveProduct);
             }
         })
     });

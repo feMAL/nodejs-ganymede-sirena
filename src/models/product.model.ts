@@ -3,8 +3,8 @@ import mongoose, {Schema, model} from 'mongoose'
 export interface Product extends mongoose.Document {
     sku           : String,
     name          : String,
-    price         : Float32Array,
-    originalPrice : Float32Array,
+    price         : Number,
+    originalPrice : Number,
     category      : Array<String>,
     description   : String,
     images        : String,

@@ -83,6 +83,11 @@ const saveSearchOrder = (orderToUpdate) => {
 const saveProductResult = (orderToUpdate) => __awaiter(void 0, void 0, void 0, function* () {
     yield orderToUpdate.result.forEach((productRecived) => __awaiter(void 0, void 0, void 0, function* () {
         let product = new product_model_1.default();
+        if (typeof productRecived.price === 'string') {
+            var precioTest = productRecived.price;
+            precioTest = precioTest.trim();
+            productRecived.price = Number(precioTest);
+        }
         product.searchRelated = orderToUpdate._id;
         product.name = productRecived.name;
         product.category = productRecived.category.filter(el => el != '');
@@ -97,6 +102,7 @@ const saveProductResult = (orderToUpdate) => __awaiter(void 0, void 0, void 0, f
             }
             if (saveProduct) {
                 saveProduct;
+                console.log(saveProduct);
             }
         });
     }));

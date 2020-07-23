@@ -34,13 +34,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Communicator = void 0;
 const ServerConfig = __importStar(require("../conf/server.config"));
 const axios_1 = __importDefault(require("axios"));
+/**
+ *  @name Communicator
+ *  @description Clase para crear una conexion entre Ganymede y Themisto
+ *  @type Clase
+ */
 class Communicator {
     constructor() {
         this.themistoConfig = ServerConfig.ServerConfig.themisto;
         this.themistoURL = `${this.themistoConfig.protocol}://${this.themistoConfig.url}:${this.themistoConfig.port}${this.themistoConfig.uriBase}${this.themistoConfig.uris.input}`;
+        /**
+         *  @name sendCommunication
+         *  @description Función para enviar la orden de busqueda al servidor Themisto.
+         *  @type funcion
+         *  @param data  Objeto json => Orden de busqueda
+         */
         this.sendCommunication = (data) => __awaiter(this, void 0, void 0, function* () {
-            let response = yield axios_1.default.post(this.themistoURL, data);
-            return response.data;
+            return yield axios_1.default.post(this.themistoURL, data)
+                .then(res => res.data).catch(err => err);
         });
     }
 }

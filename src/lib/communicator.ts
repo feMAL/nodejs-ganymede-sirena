@@ -22,7 +22,8 @@ export class Communicator {
      *  @param data  Objeto json => Orden de busqueda
      */
     sendCommunication = async ( data: SearchOrder ) => {
-        let response = await axios.post(this.themistoURL,data)
-        return response.data
+          
+        return await axios.post(this.themistoURL,data)
+            .then(res=> res.data).catch(err => err)
     }
 }

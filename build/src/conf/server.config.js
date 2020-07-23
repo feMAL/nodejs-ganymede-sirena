@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServerConfig = void 0;
+/**
+ *  @name ServerConfig
+ *  @description Objeto de configuración para servidores.
+ *  @type Constante de tipo Object
+ */
 exports.ServerConfig = {
     ganymede: {
         port: 5000 || process.env.PORT,

@@ -15,13 +15,13 @@ import { Communicator }from '../lib/communicator'
  */
 const searchRequest = async (req:Request, res:Response) => {
     if(!req.body){
-        return res.status(400).send( { ok:false, message:'No ha enviado los parametros requeridos' } );
+        return res.status(400).send( { _ok: false, message: 'No ha enviado los parametros requeridos' } );
     }
     
     let params: SearchRequest = req.body;
 
     if(!params.query || !params.providers || !params.callbackUrl){
-        return res.status(400).send({ok:false, message:'No ha enviado los parametros requeridos'});
+        return res.status(400).send( { _ok: false, message: 'No ha enviado los parametros requeridos'});
     }
 
     let newSearchOrder = new Search_Order()
@@ -31,16 +31,20 @@ const searchRequest = async (req:Request, res:Response) => {
 
     newSearchOrder.save((err,orderSaved)=>{
         if(err){
-            return res.status(500).send( { ok: false, message: err.message } );
+            return res.status(500).send( { _ok: false, message: err.message } );
         }
         if(!orderSaved){
-            return res.status(404).send( { ok: false, message: 'No se ha encontrado la orden de busqueda generada'} );
+            return res.status(404).send( { _ok: false, message: 'No se ha encontrado la orden de busqueda generada'} );
         }else{
             let changer : SearchOrder = new StatusChanger('pending',orderSaved).statusChanger();
             let connection = new Communicator()
-                .sendCommunication(changer)
-                .catch( err => console.log(err) );
-            return res.status(200).send( { orderSaved } );
+                .sendCommunication(changer).then( response => {
+                    return res.status(200).send( { _ok: true, orderSaved, message: response } );
+                })
+                .catch( err => {
+                    return res.status(500).send( { _ok: false, message: 'Se ha producido un error en el proceso' } );
+                } );
+            
         }
     })
 }
@@ -57,9 +61,9 @@ const searchRequest = async (req:Request, res:Response) => {
 const showAllOrders = async (req:Request, res:Response) => {
     Search_Order.find().populate('result').exec( ( err, allOrder ) => {
         if(err){
-            return res.status(500).send( { ok: false, message: err.message } )
+            return res.status(500).send( { _ok: false, message: err.message } )
         }
-        return res.status(200).send( { ok: true, search_order: allOrder } )
+        return res.status(200).send( { _ok: true, search_order: allOrder } )
     })
 }
 
@@ -78,15 +82,15 @@ const showOrderById = async (req:Request, res:Response) => {
         if(idOrder.length == 24){
             Search_Order.findById(idOrder,(err,foundIt)=>{
                 if(err){
-                    return res.status(500).send( { ok: false, message: err.message } )
+                    return res.status(500).send( { _ok: false, message: err.message } )
                 }
-                return res.status(200).send( { ok: true, search_order: foundIt } )
+                return res.status(200).send( { _ok: true, search_order: foundIt } )
             })
         }else{
-            return res.status(400).send({ok:false, message:'No ha enviado los parametros requeridos correctamente'})
+            return res.status(400).send({_ok:false, message:'No ha enviado los parametros requeridos correctamente'})
         }
     }else{
-        return res.status(400).send({ok:false, message:'No ha enviado los parametros requeridos correctamente'})
+        return res.status(400).send({_ok:false, message:'No ha enviado los parametros requeridos correctamente'})
     }
     
 }
@@ -101,7 +105,7 @@ const showOrderById = async (req:Request, res:Response) => {
  *  @returns Retorna todas las Ordenes
  */
 const showProductsByCategory = async (req:Request, res:Response) => {
-    res.status(200).send({ok:true, message:'product/search endpoint UP!'})
+    res.status(200).send({_ok:true, message:'product/search endpoint UP!'})
 }
 
 export default {

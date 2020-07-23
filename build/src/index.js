@@ -1,4 +1,9 @@
 "use strict";
+/**
+ *   @name index  Entrada al aplicativo
+ *   @description  Levanta API (GanyMede). Se configura los middlewares, y las rutas del servicio.
+ *   @type API  -> Ganymede
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
