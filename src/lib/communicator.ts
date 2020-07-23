@@ -16,7 +16,7 @@ export class Communicator {
 
     constructor() {
         let enviornment = process.env.NODE_ENV;
-        if( enviornment == 'prod'){
+        if( enviornment == 'production'){
             this.env_config   = ServerConfigProd;
             this.config_themi = this.env_config.themisto;
             this.themistoURL  = `${this.config_themi.protocol}://${this.config_themi.url}:${this.config_themi.port}${this.config_themi.uriBase}${this.config_themi.uris.input}`;

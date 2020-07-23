@@ -21,7 +21,7 @@ let PORT       = serverConf.ganymede.port;
 
 let dbData     = serverConf.dbganymede;
 let urlDB      = `${dbData.url}:${dbData.port}`
-if( ENV == 'prod'){
+if( ENV == 'production'){
     serverConf = ServerConfigProd
     urlDB      = `${dbData.username}:${dbData.passwd}@${dbData.url}`
     PORT       = serverConf.ganymede.port
