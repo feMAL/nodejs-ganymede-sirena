@@ -5,10 +5,10 @@ export interface ServerConfig {
     },
     themisto    : {
         protocol: String,
-        url     : String,
-        port    : Number,
-        uriBase : String
-        uris    : {
+        url      : String,
+        port    ?: Number,
+        uriBase  : String
+        uris     : {
             input  : String
         }
     },
@@ -35,11 +35,11 @@ export const ServerConfigDev = {
      *  Themisto Config
      */
     themisto    : {
-        protocol: 'http',
-        url     : 'localhost',
-        port    : 5050,
-        uriBase : '/api',
-        uris    : {
+        protocol : 'http',
+        url      : 'localhost',
+        port     : 5050,
+        uriBase  : '/api',
+        uris     : {
             input  : '/engine-search/input'
         }
     },
@@ -56,7 +56,7 @@ export const ServerConfigDev = {
 }
 /**
  *  @name ServerConfigProd
- *  @description Objeto de configuración para servidores.
+ *  @description Objeto de configuración para servidores productivos.
  *  @type Constante de tipo Object
  */
 export const ServerConfigProd: ServerConfig= {
@@ -64,11 +64,11 @@ export const ServerConfigProd: ServerConfig= {
         port    : process.env.PORT,
     },
     themisto    : {
-        protocol: 'http',
-        url     : 'localhost',
-        port    : 5050,
-        uriBase : '/api',
-        uris    : {
+        protocol : process.env.PROTO_THEMISTO || 'http',
+        url      : process.env.URL_THEMISTO || 'localhost',
+        port     : 5050,
+        uriBase  : '/api',
+        uris     : {
             input  : '/engine-search/input'
         }
     },
