@@ -17,13 +17,15 @@ import InputRoute  from './routes/input.route'
 const app      = express();
 let serverConf : ServerConfig = ServerConfigDev
 const ENV      = process.env.NODE_ENV;
-const PORT     = serverConf.ganymede.port;
+let PORT       = serverConf.ganymede.port;
 
 let dbData     = serverConf.dbganymede;
 let urlDB      = `${dbData.url}:${dbData.port}`
 if( ENV == 'prod'){
     serverConf = ServerConfigProd
     urlDB      = `${dbData.username}:${dbData.passwd}@${dbData.url}`
+    PORT       = serverConf.ganymede.port
+    console.log('productivo')
 }
 
 //MiddleWares
