@@ -62,6 +62,7 @@ const saveSearchOrder = ( orderToUpdate: SearchOrder ) => {
                     return console.log(err.message);
                 }
                 if(updated){
+                    console.log(updated)
                     sendResult( orderToUpdate.data.callbackUrl.toString(), updated );
                 }
             });
@@ -96,8 +97,6 @@ const saveProductResult = async ( orderToUpdate: SearchOrder ) => {
         product.price         = productRecived.price;
         product.originalPrice = productRecived.originalPrice || null;
         
-        
-
         await product.save( ( err, saveProduct ) => {
             if(err){
                 return console.log( err.message + ':- error -' );
@@ -105,7 +104,6 @@ const saveProductResult = async ( orderToUpdate: SearchOrder ) => {
             if(saveProduct)
             {
                 saveProduct;
-                console.log(saveProduct);
             }
         })
     });
