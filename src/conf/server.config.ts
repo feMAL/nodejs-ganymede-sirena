@@ -73,7 +73,7 @@ export const ServerConfigProd: ServerConfig= {
         }
     },
     dbganymede: {
-        protocol: 'mongodb',
+        protocol: 'mongodb+srv',
         url     : process.env.URL_MONGO_DB,
         dbname  : process.env.MONGO_DB,
         username: process.env.USER_MONGO_DB,

@@ -15,19 +15,18 @@ import InputRoute  from './routes/input.route'
 
 //Initializations
 const app      = express();
-let serverConf : ServerConfig = ServerConfigDev
 const ENV      = process.env.NODE_ENV;
-let PORT       = serverConf.ganymede.port;
 
+let serverConf : ServerConfig = ServerConfigDev
+let PORT       = serverConf.ganymede.port;
 let dbData     = serverConf.dbganymede;
-let urlDB      = `${dbData.url}:${dbData.port}`
+let urlDB      = `${dbData.url}:${dbData.port}`;
+
 if( ENV == 'production'){
-    serverConf = ServerConfigProd
-    PORT       = serverConf.ganymede.port
+    serverConf = ServerConfigProd;
+    PORT       = serverConf.ganymede.port;
     dbData     = serverConf.dbganymede;
-    urlDB      = `${dbData.username}:${dbData.passwd}@${dbData.url}`
-    
-    console.log('productivo')
+    urlDB      = `${dbData.username}:${dbData.passwd}@${dbData.url}`;
 }
 
 //MiddleWares
